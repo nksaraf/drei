@@ -8,7 +8,7 @@ export const IsObject = (url: any): url is Record<string, string> =>
 
 export function useTexture<Url extends string[] | string | Record<string, string>>(
   input: Url,
-  onLoad?: (texture: Texture | Texture[]) => void
+  onLoad?: (texture: Url extends any[] ? Texture[] : Url extends object ? Texture[] : Texture) => void
 ): Url extends any[] ? Texture[] : Url extends object ? { [key in keyof Url]: Texture } : Texture {
   const gl = useThree((state) => state.gl)
   const textures = useLoader(TextureLoader, IsObject(input) ? Object.values(input) : (input as any))
